@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.galaxyinternet.dao.RoleDAO">
+	<resultMap id="BaseResultMap" type="com.galaxyinternet.model.Role">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="role_code" property="roleCode" jdbcType="VARCHAR" />
+		<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+		<result column="role_desc" property="roleDesc" jdbcType="VARCHAR" />
+		<result column="created_user" property="createdUser" jdbcType="VARCHAR" />
+		<result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+		<result column="updated_user" property="updatedUser" jdbcType="VARCHAR" />
+		<result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, role_code, role_name, role_desc, created_user, created_time, updated_user, updated_time
+	</sql>
+	<sql id="Base_Where_List">
+		<where>
+			<if test="roleCode != null">
+				role_code = #{rolecode}
+			</if>
+			<if test="roleName != null">
+				and role_name = #{roleName}
+			</if>
+			<if test="ids != null">
+				and id in
+				<foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
+			</if>
+		</where>
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_role
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="select" resultMap="BaseResultMap" parameterType="Role">
+		select
+		<include refid="Base_Column_List" />
+		from t_role
+		<include refid="Base_Where_List"/>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_role
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.galaxyinternet.model.Role" useGeneratedKeys="true" keyProperty="id">
+		insert into t_role (role_code, role_name, role_desc,
+		created_user, created_time,
+		updated_user,
+		updated_time)
+		values (#{roleCode,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{roleDesc,jdbcType=VARCHAR},
+		#{createdUser,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP},
+		#{updatedUser,jdbcType=VARCHAR},
+		#{updatedTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.galaxyinternet.model.Role" useGeneratedKeys="true" keyProperty="id">
+		insert into t_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="roleCode != null">
+				role_code,
+			</if>
+			<if test="roleName != null">
+				role_name,
+			</if>
+			<if test="roleDesc != null">
+				role_desc,
+			</if>
+			<if test="createdUser != null">
+				created_user,
+			</if>
+			<if test="createdTime != null">
+				created_time,
+			</if>
+			<if test="updatedUser != null">
+				updated_user,
+			</if>
+			<if test="updatedTime != null">
+				updated_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="roleCode != null">
+				#{roleCode,jdbcType=VARCHAR},
+			</if>
+			<if test="roleName != null">
+				#{roleName,jdbcType=VARCHAR},
+			</if>
+			<if test="roleDesc != null">
+				#{roleDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="createdUser != null">
+				#{createdUser,jdbcType=VARCHAR},
+			</if>
+			<if test="createdTime != null">
+				#{createdTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedUser != null">
+				#{updatedUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedTime != null">
+				#{updatedTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.galaxyinternet.model.Role">
+		update t_role
+		<set>
+			<if test="roleCode != null">
+				role_code = #{roleCode,jdbcType=VARCHAR},
+			</if>
+			<if test="roleName != null">
+				role_name = #{roleName,jdbcType=VARCHAR},
+			</if>
+			<if test="roleDesc != null">
+				role_desc = #{roleDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="createdUser != null">
+				created_user = #{createdUser,jdbcType=VARCHAR},
+			</if>
+			<if test="createdTime != null">
+				created_time = #{createdTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedUser != null">
+				updated_user = #{updatedUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedTime != null">
+				updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.galaxyinternet.model.Role">
+		update t_role
+		set role_code = #{roleCode,jdbcType=VARCHAR},
+		role_name = #{roleName,jdbcType=VARCHAR},
+		role_desc = #{roleDesc,jdbcType=VARCHAR},
+		created_user = #{createdUser,jdbcType=VARCHAR},
+		created_time = #{createdTime,jdbcType=TIMESTAMP},
+		updated_user = #{updatedUser,jdbcType=VARCHAR},
+		updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+		where
+		id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

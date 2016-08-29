@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.galaxyinternet.dao.UserDAO">
+	<resultMap id="BaseResultMap" type="com.galaxyinternet.model.User">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="user_login" property="userLogin" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+		<result column="created_user" property="createdUser" jdbcType="VARCHAR" />
+		<result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+		<result column="updated_user" property="updatedUser" jdbcType="VARCHAR" />
+		<result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_login, password, user_name, email, sex, created_user, created_time, updated_user,
+		updated_time
+	</sql>
+	<sql id="Base_Where_List">
+		<where>
+			<if test="userLogin != null"> user_login = #{userLogin}</if>
+			<if test="userName != null"> user_name = #{userName}</if>
+			<if test="email != null"> email = #{email}</if>
+		</where>
+		<if test="sort != null and order != null"> order by ${sort} ${order}</if>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<select id="select" resultMap="BaseResultMap" parameterType="User">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		<include refid="Base_Where_List"/>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_user
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.galaxyinternet.model.User" useGeneratedKeys="true" keyProperty="id">
+		insert into t_user (user_login, password, user_name,
+		email, sex, created_user,
+		created_time, updated_user, updated_time
+		)
+		values (#{userLogin,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{createdUser,jdbcType=VARCHAR},
+		#{createdTime,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=VARCHAR}, #{updatedTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.galaxyinternet.model.User" useGeneratedKeys="true" keyProperty="id">
+		insert into t_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userLogin != null">
+				user_login,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="createdUser != null">
+				created_user,
+			</if>
+			<if test="createdTime != null">
+				created_time,
+			</if>
+			<if test="updatedUser != null">
+				updated_user,
+			</if>
+			<if test="updatedTime != null">
+				updated_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userLogin != null">
+				#{userLogin,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="createdUser != null">
+				#{createdUser,jdbcType=VARCHAR},
+			</if>
+			<if test="createdTime != null">
+				#{createdTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedUser != null">
+				#{updatedUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedTime != null">
+				#{updatedTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.galaxyinternet.model.User">
+		update t_user
+		<set>
+			<if test="userLogin != null">
+				user_login = #{userLogin,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+				user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="createdUser != null">
+				created_user = #{createdUser,jdbcType=VARCHAR},
+			</if>
+			<if test="createdTime != null">
+				created_time = #{createdTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedUser != null">
+				updated_user = #{updatedUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedTime != null">
+				updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.galaxyinternet.model.User">
+		update t_user
+		set user_login = #{userLogin,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		user_name = #{userName,jdbcType=VARCHAR},
+		email = #{email,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=VARCHAR},
+		created_user = #{createdUser,jdbcType=VARCHAR},
+		created_time = #{createdTime,jdbcType=TIMESTAMP},
+		updated_user = #{updatedUser,jdbcType=VARCHAR},
+		updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

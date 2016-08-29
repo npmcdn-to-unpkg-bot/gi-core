@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.galaxyinternet.dao.ResourceDAO">
+	<resultMap id="BaseResultMap" type="com.galaxyinternet.model.Resource">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="parent_id" property="parentId" jdbcType="BIGINT" />
+		<result column="resource_code" property="resourceCode" jdbcType="VARCHAR" />
+		<result column="resource_name" property="resourceName" jdbcType="VARCHAR" />
+		<result column="resource_type" property="resourceType" jdbcType="VARCHAR" />
+		<result column="resource_desc" property="resourceDesc" jdbcType="VARCHAR" />
+		<result column="resource_url" property="resourceUrl" jdbcType="VARCHAR" />
+		<result column="resource_icon" property="resourceIcon" jdbcType="VARCHAR" />
+		<result column="resource_order" property="resourceOrder" jdbcType="INTEGER" />
+		<result column="system_code" property="systemCode" jdbcType="VARCHAR" />
+		<result column="resource_status" property="resourceStatus" jdbcType="VARCHAR" />
+		<result column="created_user" property="createdUser" jdbcType="VARCHAR" />
+		<result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+		<result column="updated_user" property="updatedUser" jdbcType="VARCHAR" />
+		<result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, parent_id, resource_code, resource_name, resource_type, resource_desc, resource_url, resource_icon,
+		resource_order, system_code, resource_status, created_user, created_time, updated_user,
+		updated_time
+	</sql>
+	<sql id="Base_Where_List">
+		<where>
+			<if test="parentId != null">
+				parent_id = #{parentId}
+			</if>
+			<if test="resourceCode != null">
+				and resource_code = #{resourceCode}
+			</if>
+			<if test="resourceType != null">
+				and resource_type = #{resourceType}
+			</if>
+			<if test="resourceStatus != null">
+				and resource_status = #{resourceStatus}
+			</if>
+			<if test="ids != null">
+				and id in
+				<foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
+			</if>
+		</where>
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_resource
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="select" resultMap="BaseResultMap" parameterType="Resource">
+		select
+		<include refid="Base_Column_List" />
+		from t_resource
+		<include refid="Base_Where_List" />
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_resource
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.galaxyinternet.model.Resource" useGeneratedKeys="true" keyProperty="id">
+		insert into t_resource (parent_id, resource_code, resource_name,
+		resource_type,
+		resource_desc, resource_url, resource_icon,
+		resource_order, system_code, resource_status,
+		created_user, created_time, updated_user,
+		updated_time)
+		values (#{parentId,jdbcType=BIGINT}, #{resourceCode,jdbcType=VARCHAR},
+		#{resourceName,jdbcType=VARCHAR},
+		#{resourceType,jdbcType=VARCHAR}, 
+		#{resourceDesc,jdbcType=VARCHAR}, #{resourceUrl,jdbcType=VARCHAR},#{resourceIcon,jdbcType=VARCHAR},
+		#{resourceOrder,jdbcType=INTEGER},
+		#{systemCode,jdbcType=VARCHAR}, #{resourceStatus,jdbcType=VARCHAR},
+		#{createdUser,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=VARCHAR},
+		#{updatedTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.galaxyinternet.model.Resource" useGeneratedKeys="true" keyProperty="id">
+		insert into t_resource
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="resourceCode != null">
+				resource_code,
+			</if>
+			<if test="resourceName != null">
+				resource_name,
+			</if>
+			<if test="resourceType != null">
+				resource_type,
+			</if>
+			<if test="resourceDesc != null">
+				resource_desc,
+			</if>
+			<if test="resourceUrl != null">
+				resource_url,
+			</if>
+			<if test="resourceIcon != null">
+				resource_icon,
+			</if>
+			<if test="resourceOrder != null">
+				resource_order,
+			</if>
+			<if test="systemCode != null">
+				system_code,
+			</if>
+			<if test="resourceStatus != null">
+				resource_status,
+			</if>
+			<if test="createdUser != null">
+				created_user,
+			</if>
+			<if test="createdTime != null">
+				created_time,
+			</if>
+			<if test="updatedUser != null">
+				updated_user,
+			</if>
+			<if test="updatedTime != null">
+				updated_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="parentId != null">
+				#{parentId,jdbcType=BIGINT},
+			</if>
+			<if test="resourceCode != null">
+				#{resourceCode,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceName != null">
+				#{resourceName,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceType != null">
+				#{resourceType,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceDesc != null">
+				#{resourceDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceUrl != null">
+				#{resourceUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceOrder != null">
+				#{resourceOrder,jdbcType=INTEGER},
+			</if>
+			<if test="systemCode != null">
+				#{systemCode,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceStatus != null">
+				#{resourceStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="createdUser != null">
+				#{createdUser,jdbcType=VARCHAR},
+			</if>
+			<if test="createdTime != null">
+				#{createdTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedUser != null">
+				#{updatedUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedTime != null">
+				#{updatedTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.galaxyinternet.model.Resource">
+		update t_resource
+		<set>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=BIGINT},
+			</if>
+			<if test="resourceCode != null">
+				resource_code = #{resourceCode,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceName != null">
+				resource_name = #{resourceName,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceType != null">
+				resource_type = #{resourceType,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceDesc != null">
+				resource_desc = #{resourceDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceUrl != null">
+				resource_url = #{resourceUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceIcon != null">
+				resource_iconl = #{resourceIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceOrder != null">
+				resource_order = #{resourceOrder,jdbcType=INTEGER},
+			</if>
+			<if test="systemCode != null">
+				system_code = #{systemCode,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceStatus != null">
+				resource_status = #{resourceStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="createdUser != null">
+				created_user = #{createdUser,jdbcType=VARCHAR},
+			</if>
+			<if test="createdTime != null">
+				created_time = #{createdTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedUser != null">
+				updated_user = #{updatedUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedTime != null">
+				updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.galaxyinternet.model.Resource">
+		update t_resource
+		set parent_id = #{parentId,jdbcType=BIGINT},
+		resource_code = #{resourceCode,jdbcType=VARCHAR},
+		resource_name =
+		#{resourceName,jdbcType=VARCHAR},
+		resource_type = #{resourceType,jdbcType=VARCHAR},
+		resource_desc = #{resourceDesc,jdbcType=VARCHAR},
+		resource_url = #{resourceUrl,jdbcType=VARCHAR},
+		resource_icon = #{resourceIcon,jdbcType=VARCHAR},
+		resource_order = #{resourceOrder,jdbcType=INTEGER},
+		system_code = #{systemCode,jdbcType=VARCHAR},
+		resource_status = #{resourceStatus,jdbcType=VARCHAR},
+		created_user = #{createdUser,jdbcType=VARCHAR},
+		created_time =
+		#{createdTime,jdbcType=TIMESTAMP},
+		updated_user = #{updatedUser,jdbcType=VARCHAR},
+		updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>
